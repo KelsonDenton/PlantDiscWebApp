@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+   <link rel="stylesheet" href="./static/style.css">
+</head>
+<body>
+<h1>Welcome to the home page!</h1>
+<h3>Enter a plant in the search bar to find out more information:</h3>
+<form action="#" method="post">
+    <input type="text" name="plantname">
+    <button type="submit" value="submit">Search</button>
+</form>
+<h3>Plants available for search:</h3>
+<ul>
+    {% for item in data %}
+    <li>{{item}}</li>
+    {% endfor %}
+</ul>
+</body>
+</html>
