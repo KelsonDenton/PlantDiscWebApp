@@ -5,6 +5,7 @@
 # import required modules
 from bs4 import BeautifulSoup
 import requests
+import json
 
 
 def get_text_under(url, title_name):
@@ -30,4 +31,23 @@ def get_text_under(url, title_name):
                     return_str += paragraph.get_text()
                     return_str += "\n"
                 return return_str
-    return 'title does not exist'
+    return f'Title {title_name} does not exist'
+
+
+while True:
+    try:
+        try:
+            with open('wiki.json', 'r') as read_json:  # open json file for reading
+                json_file = json.load(read_json)
+                description = get_text_under(json_file["url"], json_file["title"])  # use get_text_under with JSON data
+                desc_dict = {"text": description}
+                json_object = json.dumps(desc_dict)
+        finally:
+            read_json.close()
+        try:
+            with open('wiki.json', 'w') as write_json:  # write resulting data to JSON file
+                write_json.write(json_object)
+        finally:
+            write_json.close()
+    except:
+        pass

@@ -5,12 +5,18 @@
     <title>Home Page</title>
    <link rel="stylesheet" href="./static/style.css">
 </head>
+<header>
+    <h1>Welcome to the home page!</h1>
+</header>
 <body>
-<h1>Welcome to the home page!</h1>
 <h3>Enter a plant in the search bar to find out more information:</h3>
 <form action="#" method="post">
     <input type="text" name="plantname">
     <button type="submit" value="submit">Search</button>
+</form>
+<h3>--OR--</h3>
+<form action="/random" method="get">
+    <button type="submit" value="submit">View a Random Plant</button>
 </form>
 <h3>Plants available for search:</h3>
 <ul>
@@ -19,4 +25,8 @@
     {% endfor %}
 </ul>
 </body>
+<footer>
+    <p>Created by Kelson Denton for OSU CS361 Software Engineering</p>
+    <p>Plant information sourced from Wikipedia and all plants listed on https://en.wikipedia.org/wiki/Houseplant</p>
+</footer>
 </html>
