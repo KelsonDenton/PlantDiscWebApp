@@ -66,9 +66,7 @@ def get_plant():
 def list_search():
     args = request.args
     plant_name = args.get('plant')
-    print(plant_name)
     plant = truncate_plant_name(plant_name)  # convert into understandable form
-    print(plant)
     underscr_name = retrieve_info.underscore_name(plant)
     desc_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}", "Description", plant)
     if desc_information[0] == 'Title Description does not exist':  # look for alternative title
@@ -102,8 +100,6 @@ def get_random():
         random_index = random.randint(0, len(data) - 1)
     plant_name = truncate_plant_name(data[random_index])
     underscr_name = retrieve_info.underscore_name(plant_name)  # convert random plant name into underscore form
-    print(underscr_name)
-    print(plant_name)
     # stop at parentheses if they are in name
     desc_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}", "Description",
                                               plant_name)
