@@ -16,7 +16,7 @@ def truncate_plant_name(plant_name):
     :return: a name of a plant including everything before the brackets/parentheses
     """
     name = ''
-    trunc_name = ''
+    trunc_name = plant_name
     for letter in plant_name:
         if letter == "(" or letter == '[' or letter == ':':
             trunc_name = name[:-1]
@@ -66,10 +66,10 @@ def get_plant():
 def list_search():
     args = request.args
     plant_name = args.get('plant')
+    print(plant_name)
     plant = truncate_plant_name(plant_name)  # convert into understandable form
-    underscr_name = retrieve_info.underscore_name(plant)
-    print(underscr_name)
     print(plant)
+    underscr_name = retrieve_info.underscore_name(plant)
     desc_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}", "Description", plant)
     if desc_information[0] == 'Title Description does not exist':  # look for alternative title
         desc_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}",
