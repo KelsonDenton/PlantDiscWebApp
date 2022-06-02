@@ -6,22 +6,23 @@
    <link rel="stylesheet" href="./static/style.css">
 </head>
 <header>
-    <h1>Welcome to the home page!</h1>
+    <h1>Welcome to the Plant Discovery App!</h1>
+    <h3>All information found on this site is sourced from Wikipedia</h3>
 </header>
 <body>
-<h3>Enter a plant in the search bar to find out more information:</h3>
+<h4>Enter a plant in the search bar to find out more information:</h4>
 <form action="#" method="post">
     <input type="text" name="plantname">
-    <button type="submit" value="submit">Search</button>
+    <button type="submit" value="submit">SEARCH</button>
 </form>
 <h3>--OR--</h3>
 <form action="/random" method="get">
-    <button type="submit" value="submit">View a Random Plant</button>
+    <button type="submit" value="submit">VIEW RANDOM PLANT</button>
 </form>
 <h3>Plants available for search:</h3>
 <ul>
     {% for item in data %}
-    <li>{{item}}</li>
+    <li><a href="/link?plant={{item}}">{{item}}</a></li>
     {% endfor %}
 </ul>
 </body>

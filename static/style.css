@@ -29,3 +29,21 @@ img{
     height: auto;
     border-radius: 5px;
 }
+
+button{
+    cursor: pointer;
+    transition: 0.5s;
+    background-color: aliceblue;
+    color: #00d323;
+    border-radius: 2px;
+    border: none;
+    min-height: 30px;
+}
+
+button:hover{
+    font-weight: bold;
+}
+
+a{
+    color: #baf9ff;
+}
