@@ -3,7 +3,7 @@ from time import sleep
 import requests
 
 
-def get_item(url: str, title: str, plant_name=None):
+def get_item(url: str, title: list, plant_name=None):
     """
     Uses get_item() and get_photo() to get a description and photo of a plant
     :param url:
@@ -18,30 +18,29 @@ def get_item(url: str, title: str, plant_name=None):
     return description
 
 
-def get_description(url: str, title: str):
+def get_description(url: str, title: list):
     """
     Uses reading and writing to wiki.json file to gather information from wiki_scraper.py
     :param url: string representing url of wikipedia article that must be scraped
-    :param title: string representing title on page under which text will be scraped from
+    :param title: list of strings representing titles in decreasing priority to try to find on wiki page
     :return: string containing description if search was successful or title not found if unsuccessful
     """
-    # turn into JSON object
-    dict = {"url": url, "title": title}
+    dict = {"url": url, "title": title[0]}
     json_obj = json.dumps(dict)
-    # write info to JSON file
     try:
         with open("wiki.json", "w") as openfile:
             openfile.write(json_obj)
     finally:
         openfile.close
     sleep(1.0)
-    # read from JSON file
     try:
         with open("wiki.json", "r") as openfile:
             wiki_info = json.load(openfile)
         data = wiki_info["text"]
     finally:
         openfile.close()
+    if data == f"Title {title[0]} does not exist" and len(title) > 0:  # try for other possible titles
+        data = get_description(url, title[1:])
     return data
 
 

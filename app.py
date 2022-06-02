@@ -31,16 +31,12 @@ def get_plant():
         plant = request.form['plantname']
         # replace underscores for spaces
         underscr_name = retrieve_info.underscore_name(plant)
-        desc_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}", "Description",
+        desc_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}",
+                                                  ["Description", "Description and biology"],
                                                   plant)
-        if desc_information[0] == 'Title Description does not exist':  # look for alternative title
-            desc_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}",
-                                                      "Description and biology", plant)
-        cult_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}", "Cultivation",
+        cult_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}",
+                                                  ["Cultivation", "Cultivation and uses"],
                                                   plant)
-        if cult_information[0] == "Title Cultivation does not exist":  # look for alternative title
-            cult_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}",
-                                                      "Cultivation and uses", plant)
         if plant == '':  # display adequate error message
             plant = 'Sorry that plant could not be found. Please go back to the home screen and try again.'
         return render_template('display.html', header=plant, desc_data=desc_information[0],
@@ -48,7 +44,7 @@ def get_plant():
 
     else:  # rendering home page list
         # get plant list from wiki article
-        txt_block = retrieve_info.get_item('https://en.wikipedia.org/wiki/Houseplant', "List of common houseplants")
+        txt_block = retrieve_info.get_item('https://en.wikipedia.org/wiki/Houseplant', ["List of common houseplants"])
         # store information in readable block (list element for each line that has been returned)
         line = ""
         data = []
@@ -68,14 +64,10 @@ def list_search():
     plant_name = args.get('plant')
     plant = truncate_plant_name(plant_name)  # convert into understandable form
     underscr_name = retrieve_info.underscore_name(plant)
-    desc_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}", "Description", plant)
-    if desc_information[0] == 'Title Description does not exist':  # look for alternative title
-        desc_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}",
-                                                  "Description and biology", plant)
-    cult_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}", "Cultivation", plant)
-    if cult_information[0] == "Title Cultivation does not exist":  # look for alternative title
-        cult_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}",
-                                                  "Cultivation and uses", plant)
+    desc_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}",
+                                              ["Description", "Description and biology"], plant)
+    cult_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}",
+                                              ["Cultivation", "Cultivation and uses"], plant)
     if plant == '':  # display adequate error message
         plant = 'Sorry that plant could not be found. Please go back to the home screen and try again.'
     return render_template('display.html', header=plant, desc_data=desc_information[0],
@@ -101,17 +93,13 @@ def get_random():
     plant_name = truncate_plant_name(data[random_index])
     underscr_name = retrieve_info.underscore_name(plant_name)  # convert random plant name into underscore form
     # stop at parentheses if they are in name
-    desc_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}", "Description",
+    desc_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}",
+                                              ["Description", "Description and biology"],
+                                              plant_name)
+    cult_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}",
+                                              ["Cultivation", "Cultivation and uses"],
                                               plant_name)
     time.sleep(1.0)
-    if desc_information[0] == 'Title Description does not exist':  # look for alternative title
-        desc_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}",
-                                                  "Description and biology", plant_name)
-    cult_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}", "Cultivation",
-                                              plant_name)
-    if cult_information[0] == "Title Cultivation does not exist":  # look for alternative title
-        cult_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}",
-                                                  "Cultivation and uses", plant_name)
     if plant_name == '':  # display adequate error message
         plant_name = 'Sorry that plant could not be found. Please go back to the home screen and try again.'
     return render_template('display.html', header=plant_name, desc_data=desc_information[0],
