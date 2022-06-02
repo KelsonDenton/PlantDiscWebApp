@@ -2,14 +2,12 @@
 # Accessed 4/19/22
 # URL: https://www.geeksforgeeks.org/web-scraping-from-wikipedia-using-python-a-complete-guide/
 
-# import required modules
 from bs4 import BeautifulSoup
 import requests
 import json
 
 
 def get_text_under(url, title_name):
-    # get URL
     page = requests.get(url)
     # scrape webpage
     soup = BeautifulSoup(page.content, 'html.parser')
@@ -37,7 +35,7 @@ def get_text_under(url, title_name):
 while True:
     try:
         try:
-            with open('wiki.json', 'r') as read_json:  # open json file for reading
+            with open('wiki.json', 'r') as read_json:
                 json_file = json.load(read_json)
                 description = get_text_under(json_file["url"], json_file["title"])  # use get_text_under with JSON data
                 desc_dict = {"text": description}
@@ -45,7 +43,7 @@ while True:
         finally:
             read_json.close()
         try:
-            with open('wiki.json', 'w') as write_json:  # write resulting data to JSON file
+            with open('wiki.json', 'w') as write_json:
                 write_json.write(json_object)
         finally:
             write_json.close()
