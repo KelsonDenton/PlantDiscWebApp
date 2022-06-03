@@ -18,29 +18,33 @@ def get_item(url: str, title: list, plant_name=None):
     return description
 
 
-def get_description(url: str, title: list):
+def get_description(url: str, titles: list):
     """
     Uses reading and writing to wiki.json file to gather information from wiki_scraper.py
     :param url: string representing url of wikipedia article that must be scraped
     :param title: list of strings representing titles in decreasing priority to try to find on wiki page
     :return: string containing description if search was successful or title not found if unsuccessful
     """
-    dict = {"url": url, "title": title[0]}
-    json_obj = json.dumps(dict)
-    try:
-        with open("wiki.json", "w") as openfile:
-            openfile.write(json_obj)
-    finally:
-        openfile.close
-    sleep(1.0)
-    try:
-        with open("wiki.json", "r") as openfile:
-            wiki_info = json.load(openfile)
-        data = wiki_info["text"]
-    finally:
-        openfile.close()
-    if data == f"Title {title[0]} does not exist" and len(title) > 0:  # try for other possible titles
-        data = get_description(url, title[1:])
+    for title in titles:
+        dict = {"url": url, "title": title}
+        json_obj = json.dumps(dict)
+        try:
+            with open("wiki.json", "w") as openfile:
+                openfile.write(json_obj)
+        finally:
+            openfile.close
+        sleep(1.0)
+        try:
+            with open("wiki.json", "r") as openfile:
+                wiki_info = json.load(openfile)
+            try:
+                data = wiki_info["text"]
+            except:
+                data = "Error communicating with Wikipedia"
+        finally:
+            openfile.close()
+        if data != f"Title {title} does not exist":
+            return data
     return data
 
 

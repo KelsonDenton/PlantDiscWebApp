@@ -35,12 +35,11 @@ def get_plant():
                                                   ["Description", "Description and biology"],
                                                   plant)
         cult_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}",
-                                                  ["Cultivation", "Cultivation and uses"],
-                                                  plant)
+                                                  ["Cultivation", "Cultivation and uses"])
         if plant == '':  # display adequate error message
             plant = 'Sorry that plant could not be found. Please go back to the home screen and try again.'
         return render_template('display.html', header=plant, desc_data=desc_information[0],
-                               cult_data=cult_information[0], img=desc_information[1])
+                               cult_data=cult_information, img=desc_information[1])
 
     else:  # rendering home page list
         # get plant list from wiki article
@@ -67,16 +66,16 @@ def list_search():
     desc_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}",
                                               ["Description", "Description and biology"], plant)
     cult_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}",
-                                              ["Cultivation", "Cultivation and uses"], plant)
+                                              ["Cultivation", "Cultivation and uses"])
     if plant == '':  # display adequate error message
         plant = 'Sorry that plant could not be found. Please go back to the home screen and try again.'
     return render_template('display.html', header=plant, desc_data=desc_information[0],
-                           cult_data=cult_information[0], img=desc_information[1])
+                           cult_data=cult_information, img=desc_information[1])
 
 
 @app.route('/random', methods=['GET'])
 def get_random():
-    txt_block = retrieve_info.get_item('https://en.wikipedia.org/wiki/Houseplant', "List of common houseplants")
+    txt_block = retrieve_info.get_item('https://en.wikipedia.org/wiki/Houseplant', ["List of common houseplants"])
     time.sleep(1.0)
     # convert text into python list of plant names
     line = ""
@@ -97,13 +96,12 @@ def get_random():
                                               ["Description", "Description and biology"],
                                               plant_name)
     cult_information = retrieve_info.get_item(f"https://en.wikipedia.org/wiki/{underscr_name}",
-                                              ["Cultivation", "Cultivation and uses"],
-                                              plant_name)
+                                              ["Cultivation", "Cultivation and uses"])
     time.sleep(1.0)
     if plant_name == '':  # display adequate error message
         plant_name = 'Sorry that plant could not be found. Please go back to the home screen and try again.'
     return render_template('display.html', header=plant_name, desc_data=desc_information[0],
-                           cult_data=cult_information[0], img=desc_information[1])
+                           cult_data=cult_information, img=desc_information[1])
 
 
 if __name__ == '__main__':
