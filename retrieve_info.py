@@ -69,10 +69,13 @@ def get_photo(plant_name: str):
     :param plant_name: name of plant that is desired for image
     :return: string that is url of image
     """
-    """api_url = "http://khourye.pythonanywhere.com/users"
+    api_url = "http://khourye.pythonanywhere.com/users"
     data = {'api_key': 'chickens456', 'keyword': plant_name + ' plant', 'num_images': 1}
     response = requests.post(api_url, json=data)
     resp = response.json()
-    img_url = resp["urls"][0]
-    return img_url"""
-    pass
+    try:
+        img_url = resp["urls"][0]
+    except:
+        img_url = "https://freesvg.org/img/Image-Not-Found.png"
+    return img_url
+
